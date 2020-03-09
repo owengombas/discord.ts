@@ -1,7 +1,8 @@
 import {
   IOn,
   IDecorator,
-  IInstance
+  IInstance,
+  Client
 } from "..";
 
 export class MetadataStorage {
@@ -14,10 +15,6 @@ export class MetadataStorage {
       this._instance = new MetadataStorage();
     }
     return this._instance;
-  }
-
-  get Ons() {
-    return this.getReadonlyArray(this._ons);
   }
 
   AddOn(on: IDecorator<IOn>) {
@@ -37,6 +34,26 @@ export class MetadataStorage {
     this._ons.forEach((on) => {
       const instance = this._instances.find((instance) => instance.class === on.class);
       if (instance) on.params.linkedInstance = instance.params;
+    });
+  }
+
+  Map(client: Client) {
+    this._ons.forEach((on) => {
+      const fn = (...params: any[]) => {
+        if (on.params.linkedInstance && on.params.linkedInstance.instance) {
+          on.params.method.bind(on.params.linkedInstance.instance)(...params, this);
+        } else {
+          on.params.method(...params, this);
+        }
+      };
+      if (on.params.once) {
+        client.once(on.params.event, fn);
+      } else {
+        client.on(on.params.event, fn);
+      }
+      if (!client.silent) {
+        console.log(`${on.params.event}: ${on.class.name}.${on.key}`);
+      }
     });
   }
 
