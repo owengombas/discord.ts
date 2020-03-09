@@ -21,7 +21,7 @@ export class Client extends ClientJS {
     this.loadClasses();
 
     MetadataStorage.Instance.Build();
-    MetadataStorage.Instance.Ons.map((on) => {
+    MetadataStorage.Instance.Ons.forEach((on) => {
       const fn = (...params: any[]) => {
         if (on.params.linkedInstance && on.params.linkedInstance.instance) {
           on.params.method.bind(on.params.linkedInstance.instance)(...params, this);
@@ -43,15 +43,13 @@ export class Client extends ClientJS {
   }
 
   private loadClasses() {
-    if (this._loadClasses) {
-      this._loadClasses.map((file) => {
-        if (typeof file === "string") {
-          const files = Glob.sync(file);
-          files.map((file) => {
-            require(file);
-          });
-        }
-      });
-    }
+    if (this._loadClasses) this._loadClasses.forEach((file) => {
+      if (typeof file === "string") {
+        const files = Glob.sync(file);
+        files.forEach((file) => {
+          require(file);
+        });
+      }
+    });
   }
 }

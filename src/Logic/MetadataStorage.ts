@@ -34,11 +34,9 @@ export class MetadataStorage {
   }
 
   Build() {
-    this._ons.map((on) => {
+    this._ons.forEach((on) => {
       const instance = this._instances.find((instance) => instance.class === on.class);
-      if (instance) {
-        on.params.linkedInstance = instance.params;
-      }
+      if (instance) on.params.linkedInstance = instance.params;
     });
   }
 
