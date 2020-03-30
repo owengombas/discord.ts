@@ -101,18 +101,20 @@ export class MetadataStorage {
                 message.params = params;
                 message.params.splice(0, 1);
 
+                let commandName = on.params.commandName;
                 if (
                   !on.params.linkedInstance.params.commandCaseSensitive &&
                   !on.params.commandCaseSensitive
                 ) {
                   testedCommand = testedCommand.toLowerCase();
+                  commandName = commandName.toLowerCase();
                 }
 
                 if (commands.indexOf(originalCommand) === -1) {
                   testedCommand = "";
                 }
 
-                if (testedCommand === on.params.commandName) {
+                if (testedCommand === commandName) {
                   execute = true;
                   command = on;
                 }
