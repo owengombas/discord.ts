@@ -129,7 +129,8 @@ export class MetadataStorage {
     });
 
     return async (...params: ArgsOf<Event>) => {
-      let paramsToInject: any = params;
+      let paramsToInject: ArgsOf<Event> | CommandMessage = params;
+      const message = params[0] as Message;
       const isMessage = event === "message";
       let isCommand = false;
       let notFoundOn;
@@ -137,7 +138,6 @@ export class MetadataStorage {
 
       onCommands = (await Promise.all(this.events.map(async (on) => {
         if (isMessage && on instanceof DCommand) {
-          const message = params[0] as Message;
           isCommand = true;
           let pass: RuleBuilder[] = undefined;
 
@@ -195,7 +195,6 @@ export class MetadataStorage {
               commandMessage.commandContent = commandMessage.commandContent.replace(cdr.regex, "");
             });
 
-            paramsToInject = commandMessage;
             return on;
           } else {
             // If it doesn't pass any of the rules => execute the commandNotFound only on the discord instance that match the message discord rules
@@ -237,6 +236,13 @@ export class MetadataStorage {
       }
 
       for (const on of eventsToExecute) {
+        if (on instanceof DCommand) {
+          paramsToInject = CommandMessage.create(
+             message,
+             on
+          );
+        }
+
         let injectedParams = paramsToInject;
         if (
           isCommand &&
