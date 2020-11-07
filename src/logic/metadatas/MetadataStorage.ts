@@ -187,15 +187,20 @@ export class MetadataStorage {
             return rule[0].regex.test(message.content);
           });
 
+          // Create a new commandMessage object to prevent inserting the same object properties of last iterated command
+          const actualCommandMessage = CommandMessage.create(
+             message,
+             on
+          );
           if (pass) {
-            CommandMessage.parseArgs(pass, commandMessage);
+            CommandMessage.parseArgs(pass, actualCommandMessage);
 
-            commandMessage.commandContent = commandMessage.content;
+            actualCommandMessage.commandContent = actualCommandMessage.content;
             computedDiscordRules.map((cdr) => {
-              commandMessage.commandContent = commandMessage.commandContent.replace(cdr.regex, "");
+              actualCommandMessage.commandContent = actualCommandMessage.commandContent.replace(cdr.regex, "");
             });
 
-            paramsToInject = commandMessage;
+            paramsToInject = actualCommandMessage;
             return on;
           } else {
             // If it doesn't pass any of the rules => execute the commandNotFound only on the discord instance that match the message discord rules
@@ -205,7 +210,7 @@ export class MetadataStorage {
 
             if (passNotFound) {
               notFoundOn = on.linkedDiscord.commandNotFound;
-              paramsToInject = commandMessage;
+              paramsToInject = actualCommandMessage;
             }
           }
         } else if (
