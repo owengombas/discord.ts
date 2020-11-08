@@ -129,7 +129,7 @@ export class MetadataStorage {
     });
 
     return async (...params: ArgsOf<Event>) => {
-      let paramsToInject: ArgsOf<Event> | CommandMessage = params;
+      let paramsToInject: any = params;
       const message = params[0] as Message;
       const isMessage = event === "message";
       let isCommand = false;
