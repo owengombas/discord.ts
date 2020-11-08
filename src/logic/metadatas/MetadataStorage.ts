@@ -135,6 +135,7 @@ export class MetadataStorage {
       let isCommand = false;
       let notFoundOn;
       let onCommands = [];
+      const commandParamsToExecute: Map<string, CommandMessage> = new Map<string, CommandMessage>();
 
       onCommands = (await Promise.all(this.events.map(async (on) => {
         if (isMessage && on instanceof DCommand) {
@@ -195,6 +196,8 @@ export class MetadataStorage {
               commandMessage.commandContent = commandMessage.commandContent.replace(cdr.regex, "");
             });
 
+            commandParamsToExecute.set(commandMessage.commandName.toString(), commandMessage);
+
             return on;
           } else {
             // If it doesn't pass any of the rules => execute the commandNotFound only on the discord instance that match the message discord rules
@@ -237,10 +240,7 @@ export class MetadataStorage {
 
       for (const on of eventsToExecute) {
         if (on instanceof DCommand) {
-          paramsToInject = CommandMessage.create(
-             message,
-             on
-          );
+          paramsToInject = commandParamsToExecute.get(on.commandName.toString());
         }
 
         let injectedParams = paramsToInject;

@@ -48,6 +48,10 @@ export class RuleBuilder {
     }
   }
 
+  toString() {
+    return this.regex.toString();
+  }
+
   static validate(text: string, rules: ArgsRulesFunction[]) {
     console.log(text, rules);
     return true;
