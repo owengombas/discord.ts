@@ -24,42 +24,42 @@ function importCommand(classType: Function, target: Function) {
     if (event instanceof DCommand) {
       const newCommand = (
         DCommand
-          .createCommand(
-            event.commandName
-          )
-          .decorate(
-            target,
-            event.key,
-            event.method,
-            classType
-          )
+        .createCommand(
+          event.commandName
+        )
+        .decorate(
+          target,
+          event.key,
+          event.method,
+          classType
+        )
       );
       MetadataStorage.instance.addCommand(newCommand);
     } else if (event instanceof DCommandNotFound) {
       const newCommand = (
         DCommandNotFound
-          .createCommandNotFound()
-          .decorate(
-            target,
-            event.key,
-            event.method,
-            classType
-          )
+        .createCommandNotFound()
+        .decorate(
+          target,
+          event.key,
+          event.method,
+          classType
+        )
       );
       MetadataStorage.instance.addCommandNotFound(newCommand);
     } else {
       const newCommand = (
         DOn
-          .createOn(
-            event.event,
-            event.once
-          )
-          .decorate(
-            target,
-            event.key,
-            event.method,
-            classType
-          )
+        .createOn(
+          event.event,
+          event.once
+        )
+        .decorate(
+          target,
+          event.key,
+          event.method,
+          classType
+        )
       );
       MetadataStorage.instance.addOn(newCommand);
     }
@@ -72,12 +72,12 @@ export function Discord(prefix: Expression, params: DiscordParamsLimited);
 export function Discord(prefix: ExpressionFunction);
 export function Discord(prefix: ExpressionFunction, params: DiscordParamsLimited);
 export function Discord(prefix?: Expression | ExpressionFunction, params?: DiscordParams) {
-  const finalParams = params || {};
+  const finalParams = params  || {};
 
   return (target: Function) => {
     if (finalParams?.import) {
       let importCommands = finalParams?.import || [];
-      if (!Array.isArray(importCommands)) {
+      if (!Array.isArray(importCommands)) {
         importCommands = [importCommands];
       }
 
@@ -90,6 +90,7 @@ export function Discord(prefix?: Expression | ExpressionFunction, params?: Disco
             if (classImport.default) {
               classType = classImport.default;
             } else {
+              const key = Object.keys(classImport)[0];
               classType = Object.values(classImport).find((p: any) => p?.prototype?.constructor != null);
             }
             importCommand(classType, target);
@@ -102,12 +103,12 @@ export function Discord(prefix?: Expression | ExpressionFunction, params?: Disco
 
     const instance = (
       DDiscord
-        .createDiscord(prefix)
-        .decorate(
-          target,
-          target.constructor.name,
-          target
-        )
+      .createDiscord(prefix)
+      .decorate(
+        target,
+        target.constructor.name,
+        target
+      )
     );
 
     MetadataStorage.instance.addDiscord(instance);
