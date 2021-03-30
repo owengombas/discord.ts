@@ -90,7 +90,6 @@ export function Discord(prefix?: Expression | ExpressionFunction, params?: Disco
             if (classImport.default) {
               classType = classImport.default;
             } else {
-              const key = Object.keys(classImport)[0];
               classType = Object.values(classImport).find((p: any) => p?.prototype?.constructor != null);
             }
             importCommand(classType, target);
