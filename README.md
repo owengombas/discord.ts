@@ -17,6 +17,13 @@
 ## Introduction
 This module is an extension of **[`discord.js`](https://discordjs.guide/)**, so the internal behavior (methods, properties, ...) is the same.
 
+## ⚠️ Update - Slash commands
+**This module will soon be updated when Discord.js will release their version 13**
+
+**@Command will be deprecated** to make room for Discord's new slash commands with the decorator @Slash.
+
+But **you can already implement Slash commands** by referring to the [documentation available here](https://owencalvin.github.io/discord.ts) and on the [slash branch of this repo](https://github.com/owencalvin/discord.ts/tree/slash)
+
 ## Index
 **Setup**
 - [Need help?](https://github.com/OwenCalvin/discord.ts#%EF%B8%8F-need-help-)

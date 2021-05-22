@@ -94,6 +94,12 @@ export class Client extends ClientJS {
    * @param loadClasses A list of glob path or classes
    */
   login(token: string, ...loadClasses: LoadClass[]) {
+    if (!this.silent) {
+      console.log("@typeit/discord: @Commands will be soon deprecated")
+      console.log("@typeit/discord: you should update to v5 that includes the new Discord Slash commands")
+      console.log("@typeit/discord: More informations: https://owencalvin.github.io/discord.ts/")
+    }
+
     if (loadClasses.length > 0) {
       this._loadClasses = loadClasses;
     }
