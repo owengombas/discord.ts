@@ -41,7 +41,7 @@ export class Client extends ClientJS {
   constructor(options?: ClientOptions) {
     super(options);
 
-    this._silent = !!options?.silent;
+    this._silent = options?.silent !== undefined || false;
     this._loadClasses = options?.classes || [];
 
     Client._variablesChar = options?.variablesChar || ":";
