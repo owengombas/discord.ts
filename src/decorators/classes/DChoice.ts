@@ -23,7 +23,7 @@ export class DChoice<Type = any> extends Decorator {
     super();
   }
 
-  static create<Type = any>(name: string, value: Type) {
+  static create<Type = any>(name: string, value: any) {
     const choice = new DChoice<Type>();
 
     choice.name = name;
