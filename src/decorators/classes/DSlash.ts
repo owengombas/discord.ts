@@ -1,11 +1,12 @@
 import {
   ApplicationCommandData,
+  ApplicationCommandOptionData,
   ApplicationCommandPermissionData,
+  Collection,
   CommandInteraction,
   CommandInteractionOption,
-  Snowflake,
 } from "discord.js";
-import { DOption, Client, SubValueType, PermissionType } from "../..";
+import { DOption, Client, SubValueType } from "../..";
 import { Method } from "./Method";
 
 export class DSlash extends Method {
@@ -13,7 +14,7 @@ export class DSlash extends Method {
   private _name: string;
   private _defaultPermission: boolean = true;
   private _options: DOption[] = [];
-  private _permissions: { id: string, type: PermissionType }[] = [];
+  private _permissions: string[] = [];
   private _guilds: string[];
   private _group: string;
   private _subgroup: string;
@@ -125,12 +126,24 @@ export class DSlash extends Method {
   getPermissions(): ApplicationCommandPermissionData[] {
     return this.permissions.map((permission) => ({
       permission: true,
-      id: permission.id as Snowflake,
-      type: permission.type,
+      id: permission as any,
+      type: 1,
     }));
   }
 
+  getLastNestedOption(options: Map<string, CommandInteractionOption>): CommandInteractionOption[] {
+    const arrOptions = Array.from(options?.values());
+    
+    if (!arrOptions?.[0]?.options) {
+      return arrOptions;
+    }
+
+    return this.getLastNestedOption(arrOptions?.[0].options);
+  }
+
   parseParams(interaction: CommandInteraction) {
-    return this.options.sort((a, b) => a.index - b.index).map((op) => interaction?.options?.get(op.name)?.value);
+    const options = this.getLastNestedOption(interaction.options);
+
+    return this.options.sort((a, b) => a.index - b.index).map((op) => options.find((o) => o.name === op.name)?.value);
   }
 }
