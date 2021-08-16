@@ -130,18 +130,16 @@ export class DSlash extends Method {
     }));
   }
 
-  getLastNestedOption(options: Map<string, CommandInteractionOption>): CommandInteractionOption[] {
-    const arrOptions = Array.from(options?.values());
-    
-    if (!arrOptions?.[0]?.options) {
-      return arrOptions;
+  getLastNestedOption(options: ReadonlyArray<CommandInteractionOption>): ReadonlyArray<CommandInteractionOption> {
+    if (!options?.[0]?.options) {
+      return options;
     }
 
-    return this.getLastNestedOption(arrOptions?.[0].options);
+    return this.getLastNestedOption(options?.[0].options);
   }
 
   parseParams(interaction: CommandInteraction) {
-    const options = this.getLastNestedOption(interaction.options);
+    const options = this.getLastNestedOption(interaction.options.data);
 
     const values = this.options.map((opt, index) => {
       return options[index]?.value;
