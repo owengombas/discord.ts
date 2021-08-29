@@ -587,7 +587,7 @@ Guards work like `Koa`'s, it's a function passed in parameter (after the `Client
 ```typescript
 import { GuardFunction } from "@typeit/discord";
 
-export const NotBot: GuardFunction<"message"> = (
+export const NotBot: GuardFunction<"message"> = async (
   [message],
   client,
   next
@@ -603,7 +603,7 @@ If you have to indicate parameters for a guard function you can simple use the "
 import { GuardFunction } from "@typeit/discord";
 
 export function Prefix(text: string, replace: boolean = true) {
-  const guard: GuardFunction<"message"> = (
+  const guard: GuardFunction<"message"> = async (
     [message],
     client,
     next
@@ -626,7 +626,7 @@ As 4th parameter you receive a basic empty object that can be used to transmit d
 ```typescript
 import { GuardFunction } from "@typeit/discord";
 
-export const NotBot: GuardFunction<"message"> = (
+export const NotBot: GuardFunction<"message"> = async (
   [message],
   client,
   next,
