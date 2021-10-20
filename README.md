@@ -17,6 +17,11 @@
   <br/>
 </p>
 
+# ⚠️ Maintained project
+This repo is no longer maintained due to my studies, but a fork of the project is active and maintained by @oceanroleplay and the community. [Please use their version of the project available here: github.com/oceanroleplay/discord.ts](https://github.com/oceanroleplay/discord.ts).  
+
+> Known as [discordx](https://www.npmjs.com/package/discordx) on NPM
+
 # 🎻 Introduction
 This module is an extension of **[discord.**js**](https://discordjs.guide/)**, so the internal behavior (methods, properties, ...) is the same.
 
