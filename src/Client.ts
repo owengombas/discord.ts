@@ -209,7 +209,10 @@ export class Client extends ClientJS {
 
               if (slash.permissions.length <= 0) return;
 
-              await commands.setPermissions(command, slash.getPermissions());
+              await commands.permissions.set({
+                command: command,
+                permissions: slash.getPermissions()
+              });
             })
           );
         } else {
@@ -299,7 +302,7 @@ export class Client extends ClientJS {
 
     getOptionsTree({
       name: interaction.commandName,
-      options: interaction.options,
+      options: interaction.options.data.map(p => p),
       type: undefined
     });
 

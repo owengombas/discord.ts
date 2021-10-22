@@ -37,7 +37,7 @@
   ],
   "dependencies": {
     "discord-api-types": "^0.18.1",
-    "discord.js": "github:discordjs/discord.js",
+    "discord.js": "^13.0.1",
     "glob": "^7.1.7"
   },
   "devDependencies": {
